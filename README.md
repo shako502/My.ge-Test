@@ -1,56 +1,72 @@
-# CodeIgniter 4 Framework
-
-## What is CodeIgniter?
-
-CodeIgniter is a PHP full-stack web framework that is light, fast, flexible and secure.
-More information can be found at the [official site](http://codeigniter.com).
-
-This repository holds the distributable version of the framework,
-including the user guide. It has been built from the
-[development repository](https://github.com/codeigniter4/CodeIgniter4).
-
-More information about the plans for version 4 can be found in [the announcement](http://forum.codeigniter.com/thread-62615.html) on the forums.
-
-The user guide corresponding to this version of the framework can be found
-[here](https://codeigniter4.github.io/userguide/).
+# My.ge დავალება
+## დავალების დეტალები
 
 
-## Important Change with index.php
+შექმენით php ფაილი (შეგიძლიათ გამოიყენოთ ნებისმიერი framework) სადაც გექნებათ შემდეგი
+endpoint - ები;
 
-`index.php` is no longer in the root of the project! It has been moved inside the *public* folder,
-for better security and separation of components.
+- POST addProductInCart - პროდუქტის კალათში დამატება. მიიღებს product_id - ს
 
-This means that you should configure your web server to "point" to your project's *public* folder, and
-not to the project root. A better practice would be to configure a virtual host to point there. A poor practice would be to point your web server to the project root and expect to enter *public/...*, as the rest of your logic and the
-framework are exposed.
+- POST removeProductFromCart - კალათიდან პროდუქტის წაშლა. მიიღებს product_id - ს
 
-**Please** read the user guide for a better explanation of how CI4 works!
+- POST setCartProductQuantity - კალათში პროდუქტის რაოდენობის ცვლილება. მიიღებს
+product_id - ს და quantity - ს
 
-## Repository Management
+- GET getUserCart - დააბრუნებს მომხმარებლის კალათაში არსებულ პროდუქტებს შემდეგი
+ფორმატით.
+```javascript
+{
+    products : [
+        {product_id: 1, quantity:1, price:10},
+        {product_id: 2, quantity:3, price:15},
+        {product_id: 5, quantity:2, price:20},
+        ...
+    ],
+    discount: 10.5 // ჯამური ფასდაკლება ერთეულებში (არა პროცენტული)
+}
+```
+***
 
-We use Github issues, in our main repository, to track **BUGS** and to track approved **DEVELOPMENT** work packages.
-We use our [forum](http://forum.codeigniter.com) to provide SUPPORT and to discuss
-FEATURE REQUESTS.
+## შესრულებული დეტალები
 
-This repository is a "distribution" one, built by our release preparation script.
-Problems with it can be raised on our forum, or as issues in the main repository.
+- კოდი დაწერილია PHP-ის Framework-ზე ( CodeIgniter ). 
+- შეიქმნა API ენდფოინთები :
+> /addproductincart - პროდუქტის კალათაში დამატებისთვის
+> /removeproductfromcart - პროდუქტის კალათიდან წაშლისთვის
+> /setcartproductquantity - პროდუქტის რაოდენობის ცვლილებისთვის
+> /getusercart - მომხმარებლის კალათის მისაღებად
 
-## Contributing
 
-We welcome contributions from the community.
+***
 
-Please read the [*Contributing to CodeIgniter*](https://github.com/codeigniter4/CodeIgniter4/blob/develop/CONTRIBUTING.md) section in the development repository.
+## კონფიგურაცია
 
-## Server Requirements
+კონფიგურაციის ფაილის მისამართი: //App/Config/App.php  - Line 26
+ვებ-გვერდის (აპლიკაციის) მთავარი მისამართის შესაცვლელად:
+```php
+public $baseURL = 'http://myge.test/index.php';
+```
 
-PHP version 7.3 or higher is required, with the following extensions installed:
+მონაცემთა ბაზის კონფიგურაციის ფაილის მისამართი: //App/Config/Database.php - Line 33
+```php
+public $default = [
+		'DSN'      => '',
+		'hostname' => 'localhost',
+		'username' => 'root',
+		'password' => '',
+		'database' => 'myge',
+		'DBDriver' => 'MySQLi',
+		'DBPrefix' => '',
+		'pConnect' => false,
+		'DBDebug'  => (ENVIRONMENT !== 'production'),
+		'charset'  => 'utf8',
+		'DBCollat' => 'utf8_general_ci',
+		'swapPre'  => '',
+		'encrypt'  => false,
+		'compress' => false,
+		'strictOn' => false,
+		'failover' => [],
+		'port'     => 3306,
+	];
+	```
 
-- [intl](http://php.net/manual/en/intl.requirements.php)
-- [libcurl](http://php.net/manual/en/curl.requirements.php) if you plan to use the HTTP\CURLRequest library
-
-Additionally, make sure that the following extensions are enabled in your PHP:
-
-- json (enabled by default - don't turn it off)
-- [mbstring](http://php.net/manual/en/mbstring.installation.php)
-- [mysqlnd](http://php.net/manual/en/mysqlnd.install.php)
-- xml (enabled by default - don't turn it off)
